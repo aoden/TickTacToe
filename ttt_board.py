@@ -6,6 +6,7 @@ class TicTacToeBoard:
     _current_player_turn = "X"
     _number_allowed_to_win = 3
     _occupations = 0
+    _win_paths = [(1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 5, 9), (3, 5, 7)]
 
     def __init__(self):
         for x in range(0, 3):
@@ -39,25 +40,22 @@ class TicTacToeBoard:
     def check_valid_move(self, location):
         x, y = self._num_to_coord[location]
         if 9 >= location >= 1 and self._coords[x][y].player is None:
-            return True;
-        return False;
+            return True
+        return False
+
+    def get_cell(self, location):
+        if 9 >= location >= 1:
+            x, y = self._num_to_coord[location]
+            return self._coords[x][y]
+        return None
 
     def check_win_condition(self):
         if self._occupations == self._width * self._height:
             return "draw"
-        for i in range(0, 3):
-            if self._coords[0][i].player is not None and (
-                            self._coords[0][i].value == self._coords[1][i].value == self._coords[2][i].value):
-                return self._coords[0][i].player
-            if self._coords[i][0].player is not None and (
-                            self._coords[i][0].value == self._coords[i][1].value == self._coords[i][2].value):
-                return self._coords[0][i].player
-        if self._coords[0][0].player is not None and self._coords[0][0].value == self._coords[1][1].value == \
-                self._coords[2][2].value:
-            return self._coords[0][0].player
-        if self._coords[2][0].player is not None and self._coords[2][1].value == self._coords[2][2].value == \
-                self._coords[2][0].value:
-            return self._coords[2][0].player
+        for path in self._win_paths:
+            a, b, c = path
+            if self.get_cell(a).player == self.get_cell(b).player == self.get_cell(c).player:
+                return self.get_cell(a).player
         return None
 
 

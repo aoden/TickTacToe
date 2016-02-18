@@ -8,7 +8,7 @@ class BasicTicTacToe:
         return
 
     def play(self):
-        while self._board.check_win_condition() is None or self._board.check_win_condition() != "draw":
+        while not (self._board.check_win_condition() is not None or self._board.check_win_condition() == "draw"):
             print('Please make your move:' + "/n")
             self._board.draw();
             location = int(raw_input('Choose a number(1-9): '))
